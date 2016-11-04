@@ -1,10 +1,9 @@
 package com.kaur0183algonquincollege.hsvcolorpicker;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
@@ -18,54 +17,58 @@ import model.HSVModel;
 public abstract class MainActivity extends AppCompatActivity implements Observer
         , SeekBar.OnSeekBarChangeListener {
 
-    private static final String ABOUT_DIALOG_TAG="About";
-    private static final String LOG_TAG ="HSV";
+    private static final String ABOUT_DIALOG_TAG = "About";
+    private static final String LOG_TAG = "HSV";
     private AboutDialogFragment mAboutDialog;
-    private TextView           mColorSwatch;
-    private HSVModel            mModel;
-    private SeekBar             mHueSB;
-    private SeekBar             mSaturationSB;
-    private SeekBar             mValueSB;
+    private TextView mColorSwatch;
+    private HSVModel mModel;
+    private SeekBar mHueSB;
+    private SeekBar mSaturationSB;
+    private SeekBar mValueSB;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences settings = getSharedPreferences( getResources().getString(R.string.app_name), Context.MODE_PRIVATE );
+        SharedPreferences settings = getSharedPreferences(getResources().getString(R.string.app_name), Context.MODE_PRIVATE);
 
         mAboutDialog = new AboutDialogFragment();
 
-        mColorSwatch = (TextView) findViewById( R.id.colorSwatch );
-        mHueSB = (SeekBar) findViewById( R.id.hueSB );
+        mColorSwatch = (TextView) findViewById(R.id.colorSwatch);
+        mHueSB = (SeekBar) findViewById(R.id.hueSB);
         mSaturationSB = (SeekBar) findViewById(R.id.saturationSB);
         mValueSB = (SeekBar) findViewById(R.id.valueSB);
 
-        mHueSB.setMax((int)HSVModel.MAX_HUE);
+        mModel = new HSVModel();
+
+        mHueSB.setMax((int) HSVModel.MAX_HUE);
         mSaturationSB.setMax((int) HSVModel.MAX_SATURATION);
         mValueSB.setMax((int) HSVModel.MAX_VALUE);
 
+        mModel.addObserver(this);
 
-        mHueSB.setOnSeekBarChangeListener( this );
+        mHueSB.setOnSeekBarChangeListener(this);
         mSaturationSB.setOnSeekBarChangeListener(this);
         mValueSB.setOnSeekBarChangeListener(this);
         this.updateView();
 
     }
+
     @Override
     public void update(Observable observable, Object data) {
         updateView();
     }
 
     private void updateHue() {
-        mHueSB.setProgress((int) HSVModel.getHue());
+        mHueSB.setProgress((int) mModel.getHue());
     }
 
     private void updateSaturation() {
-        mSaturationSB.setProgress((int) HSVModel.getSaturation());
+        mSaturationSB.setProgress((int) mModel.getSaturation());
     }
 
     private void updateValue() {
-        mValueSB.setProgress((int) HSVModel.getValue());
+        mValueSB.setProgress((int) mModel.getValue());
     }
 
 
@@ -77,7 +80,7 @@ public abstract class MainActivity extends AppCompatActivity implements Observer
     }
 
     private void updateColorSwatch() {
-        mColorSwatch.setBackgroundColor(HSVModel.getColorSwatch());
+        mColorSwatch.setBackgroundColor(mModel.getColorSwatch());
     }
 
     @Override
@@ -86,6 +89,7 @@ public abstract class MainActivity extends AppCompatActivity implements Observer
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -94,7 +98,7 @@ public abstract class MainActivity extends AppCompatActivity implements Observer
         int id = item.getItemId();
 
         if (id == R.id.action_about) {
-            mAboutDialog.show( getFragmentManager(), ABOUT_DIALOG_TAG );
+            mAboutDialog.show(getFragmentManager(), ABOUT_DIALOG_TAG);
             return true;
         }
 
