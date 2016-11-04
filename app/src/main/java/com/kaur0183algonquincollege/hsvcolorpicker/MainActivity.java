@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -14,8 +15,7 @@ import java.util.Observer;
 
 import model.HSVModel;
 
-public class MainActivity extends AppCompatActivity implements Observer
-        , SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity implements Observer, SeekBar.OnSeekBarChangeListener {
 
     private static final String ABOUT_DIALOG_TAG = "About";
     private static final String LOG_TAG = "HSV";
@@ -107,7 +107,17 @@ public class MainActivity extends AppCompatActivity implements Observer
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
+        switch (seekBar.getId()) {
+            case R.id.hueSB:
+                mModel.setHue(seekBar.getProgress());
+                break;
+            case R.id.saturationSB:
+                mModel.setSaturation(seekBar.getProgress());
+                break;
+            case R.id.valueSB:
+                mModel.setValue(seekBar.getProgress());
+                break;
+        }
     }
 
     @Override
@@ -118,5 +128,56 @@ public class MainActivity extends AppCompatActivity implements Observer
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    public void buttonClick(View v) {
+        switch (v.getId()) {
+            case R.id.blackButton:
+                mModel.asBlack();
+                break;
+            case R.id.redButton:
+                mModel.asRed();
+                break;
+            case R.id.limeButton:
+                mModel.asLime();
+                break;
+            case R.id.blueButton:
+                mModel.asBlue();
+                break;
+            case R.id.yellowButton:
+                mModel.asYellow();
+                break;
+            case R.id.cyanButton:
+                mModel.asCyan();
+                break;
+            case R.id.magentaButton:
+                mModel.asMagenta();
+                break;
+            case R.id.silverButton:
+                mModel.asSilver();
+                break;
+            case R.id.grayButton:
+                mModel.asGray();
+                break;
+            case R.id.maroonButton:
+                mModel.asMaroon();
+                break;
+            case R.id.oliveButton:
+                mModel.asOlive();
+                break;
+            case R.id.greenButton:
+                mModel.asGreen();
+                break;
+            case R.id.purpleButton:
+                mModel.asPurple();
+                break;
+            case R.id.tealButton:
+                mModel.asTeal();
+                break;
+            case R.id.navyButton:
+                mModel.asNavy();
+                break;
+
+        }
     }
 }
