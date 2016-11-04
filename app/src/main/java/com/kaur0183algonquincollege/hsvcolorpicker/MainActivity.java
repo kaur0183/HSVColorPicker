@@ -14,7 +14,7 @@ import java.util.Observer;
 
 import model.HSVModel;
 
-public abstract class MainActivity extends AppCompatActivity implements Observer
+public class MainActivity extends AppCompatActivity implements Observer
         , SeekBar.OnSeekBarChangeListener {
 
     private static final String ABOUT_DIALOG_TAG = "About";
@@ -105,4 +105,18 @@ public abstract class MainActivity extends AppCompatActivity implements Observer
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
 }
